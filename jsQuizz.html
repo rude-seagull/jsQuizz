@@ -86,6 +86,19 @@
     </main>
 
     <script type="text/javascript">
+        function disable(buttonElement)
+        {
+            buttonElement.setAttribute("disabled", "");
+        };
+        function enable(buttonElement)
+        {
+            buttonElement.removeAttribute("disabled");
+        };
+        function isCorrect(guess)
+        {
+            return guess === fact.answer.toString();
+        };
+
         const statement = document.getElementById("statement");
         const optionButtons = document.querySelector("#options").children;
         const explanation = document.getElementById("explanation");
@@ -94,7 +107,22 @@
             answer: true,
             explanation: "RTFM"
         };
+
         statement.textContent = fact.statement;
+
+        for (const optionButton of optionButtons) {
+            optionButton.addEventListener("click", event => {
+                explanation.textContent = fact.explanation;
+                for (const optionButton of optionButtons) {
+                    disable(optionButton);
+                }
+                if (isCorrect(optionButton.value)) {
+                    optionButton.classList.add("correct");
+                } else {
+                    optionButton.classList.add("incorrect");
+                }
+            })
+        }
     </script>
 
 </body>
